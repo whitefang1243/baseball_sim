@@ -8,3 +8,5 @@ This can be reduced, but at the risk of a temporary or permanent IP ban.
 
 Currently, the program does not support season before 2012, due to the hardcoded nature of the divisions and teams.
 This will be fixed in a future update, mostly because of the Athletics.
+
+TODO: add support for command line arg
