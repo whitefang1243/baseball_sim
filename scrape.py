@@ -8,6 +8,8 @@ import time
 #see populate.py for more information
 teams = ['STL', 'TOR', 'NYM', 'SFG', 'MIN', 'SEA', 'PHI', 'WSN', 'LAD', 'COL', 'CHC', 'CHW', 'HOU', 'BOS', 'DET', 'PIT', 'TBR', 'KCR', 'MIL', 'BAL', 'TEX', 'CIN', 'ATL', 'SDP', 'ARI', 'LAA', 'OAK', 'NYY', 'CLE', 'MIA']
 
+DELAY = 10
+
 def old_main(year):
     s = baseball_reference.TeamScraper()
     s.set_season(year)
@@ -16,7 +18,7 @@ def old_main(year):
     arr = data.to_numpy()
     print(arr)
     for i in range(1, len(teams)):
-        time.sleep(10)
+        time.sleep(DELAY)
         data = s.scrape(teams[i])
         print(data.head())
         arr2 = data.to_numpy()
@@ -45,7 +47,7 @@ def main(year, flag):
     arr = [arr.tolist()]
     print(arr)
     for i in range(1, len(teams)):
-        time.sleep(10)
+        time.sleep(DELAY)
         data = s.scrape(teams[i])
         print(data.head())
         arr2 = data.to_numpy()

@@ -14,7 +14,7 @@ mydb = mysql.connector.connect(
   password="Aa531491",
   database = "test"
 )
-YEAR = 2019                 #year we are loading/updating
+YEAR = 2020                 #year we are loading/updating
 CURRENT = 2024              #current year
 mycursor = mydb.cursor()
 

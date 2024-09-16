@@ -16,11 +16,19 @@ mydb = mysql.connector.connect(
 
 # TODO  allow for multiple seasons and grabbing odds from an arbitrary date
 
-YEAR = 2014                 #the year we are interested in
+YEAR = 2020                 #the year we are interested in
 mycursor = mydb.cursor()
 
 #grabs games from table
 def importGames():
+    #we need to check if the table for this season exists
+    sql = "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = 'test') AND (TABLE_NAME = 't" + str(YEAR) + "')"
+    mycursor.execute(sql)
+    for x in mycursor:
+        print(x[0])
+        if x[0]==0:
+            print("Season has not been imported or cannot be found; terminating program")
+            exit()
     mycursor.execute("SELECT * FROM t" + str(YEAR))
     myresult = mycursor.fetchall()
     return myresult
@@ -274,5 +282,5 @@ def oneGame(games, tDict, n, a, b):
 #oneGame(importGames(), initializeTeams(), 1000, "CHW", "BAL")
 
 #main(importGames(), initializeTeams(), 1000, None)
-datetime.date(2024, 3, 28)
-main(importGames(), initializeTeams(), 1000, datetime.date(YEAR, 5, 28))
+targetDate = datetime.date(YEAR, 8, 28)
+main(importGames(), initializeTeams(), 1000, targetDate)
