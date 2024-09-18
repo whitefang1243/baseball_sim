@@ -223,8 +223,8 @@ def main(games, tDict, n, date):
               str(round((sortedList[j].winDiv/n*100 + sortedList[j].WC/n*100),2)).ljust(8) + " "
               )
 
-
-def oneGame(games, tDict, n, a, b):
+#run simulations for a single game and return most likely result, avg result, verification
+def oneGame(games, tDict, n, a, b, debug):
     handleSchedule(games,tDict, [])     #we don't need the unfinished games thing, so just leave it like this
 
     winLoss = [0,0]
@@ -259,6 +259,9 @@ def oneGame(games, tDict, n, a, b):
     print(winLoss)
     print(avgRuns)
     
+    if not debug:               #debug variable determines if we run verification or not
+        return
+    
     print("Verification")       #make sure the result makes sense by testing it against itself essentially
     
     res = [0,0]
@@ -276,7 +279,7 @@ def oneGame(games, tDict, n, a, b):
                 res[1]+=1
                 break
     print(res)
-    
+
 
 
 #oneGame(importGames(), initializeTeams(), 1000, "CHW", "BAL")
