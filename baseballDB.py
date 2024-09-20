@@ -16,7 +16,7 @@ mydb = mysql.connector.connect(
 
 # TODO  allow for multiple seasons and grabbing odds from an arbitrary date
 
-YEAR = 2020                 #the year we are interested in
+YEAR = 2024                 #the year we are interested in
 mycursor = mydb.cursor()
 
 #grabs games from table
@@ -71,10 +71,30 @@ def initializeTeams():
     
     return teamDict
 
-def printResults(teamList):
-    teamList.sort(key=lambda x: (x.points, (x.GF-x.GA), x.GF), reverse=True)
-    for i in range (0,len(teamList)):
-        print(teamList[i])
+def writeResults(tDict, n):
+    sortedList = list(tDict.values())
+    sortedList.sort(key=lambda x: (x.position/n))
+    f = open("output" + str(YEAR) + ".txt", "w")
+    f.write("name".ljust(8) + " " + 
+          str("avgWins").ljust(8) + " " + 
+          str("avgLoss").ljust(8) + " " + 
+          str("best").ljust(8) + " " + 
+          str("worst").ljust(8) + " " + 
+          str("winDiv%").ljust(8) + " " + 
+          str("Playoff%").ljust(8) + " "
+          )
+    f.write("\n")
+    for j in range(0, len(sortedList)):
+        f.write(sortedList[j].name.ljust(8) + " " + 
+              str(round(sortedList[j].tWins/n,2)).ljust(8) + " " + 
+              str(round(sortedList[j].tLoss/n,2)).ljust(8) + " " + 
+              str(sortedList[j].best).ljust(8) + " " + 
+              str(sortedList[j].worst).ljust(8) + " " + 
+              str(round(sortedList[j].winDiv/n*100,2)).ljust(8) + " " + 
+              str(round((sortedList[j].winDiv/n*100 + sortedList[j].WC/n*100),2)).ljust(8) + " "
+              )
+        f.write("\n")
+    f.close()
 
 def handleSchedule(games,tDict, unfinished):
     print(datetime.datetime.now().strftime('\nStandings estimations as of %m/%d/%Y \n'))
@@ -222,6 +242,7 @@ def main(games, tDict, n, date):
               str(round(sortedList[j].winDiv/n*100,2)).ljust(8) + " " + 
               str(round((sortedList[j].winDiv/n*100 + sortedList[j].WC/n*100),2)).ljust(8) + " "
               )
+    writeResults(tDict, n)
 
 #run simulations for a single game and return most likely result, avg result, verification
 def oneGame(games, tDict, n, a, b, debug):
